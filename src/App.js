@@ -1,14 +1,13 @@
 import React from 'react';
 import Layout from './hoc/Layout/Layout';
+import Quiz from './containers/Quiz/Quiz';
 
 
 
 function App() {
-  return (
+	return (
         <Layout>
-			<div style={{width:400, border: '1px solid black'}}>
-				<h1>Layout works</h1>
-			</div>
+			<Quiz />
 		</Layout>
   	);
 }
