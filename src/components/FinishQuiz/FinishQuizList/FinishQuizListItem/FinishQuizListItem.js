@@ -3,9 +3,9 @@ import classes from './FinishQuizListItem.module.css';
 
 const FinishQuizListItem = props => (
     <li className={classes.FinishQuizListItem}>
-        <strong>1. </strong>
-            How are you
-        <i className={'fa fa-check ' + classes.success} />
+        <strong>{props.index + 1}</strong>.&nbsp;
+            {props.question}
+        <i className={props.iconCls} />
     </li>
 )
 

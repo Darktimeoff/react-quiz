@@ -5,7 +5,7 @@ import FinishQuizList from './FinishQuizList/FinishQuizList';
 const FinishQuiz = (props) => {
     return (
         <div className={classes.FinishQuiz}>
-            <FinishQuizList />
+            <FinishQuizList results={props.results} quiz={props.quiz} onRetryClick={props.onRetryClick}/>
         </div>
     )
 }
