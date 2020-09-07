@@ -14,11 +14,17 @@ class Layout extends Component {
         });
     }
 
+    backDropClickHandler = () => {
+        this.setState({
+            menu: false
+        });
+    }
+
     render() {
         return (
             <div className={classes.Layout}>
 
-                <Drawer isOpen={this.state.menu}/>
+                <Drawer isOpen={this.state.menu} onBackdropClick={this.backDropClickHandler}/>
 
                 <MenuToggle 
                     isOpen={this.state.menu}
