@@ -1,26 +1,55 @@
 import React, { Component } from 'react';
 import classes from './QuizList.module.css';
 import {NavLink} from 'react-router-dom';
+import Loader from '../../components/UI/Loader/Loader';
+
 import axios from 'axios';
 
 export default class QuizList extends Component {
+    state = {
+        quizes: [],
+        isLoading: true
+    }
+
     renderQuizes () {
-        return [1, 2, 3, 4].map((quiz, index) => {
+        if(this.props.quizes) return;
+        return this.state.quizes.map((quiz, i) => {
             return (
-                <li key={index}>
-                    <NavLink to={'quiz/' + quiz}>
-                        Тест {quiz}
+                <li key={quiz.id}>
+                    <NavLink to={'quiz/' + quiz.id}>
+                        {i+1}.&nbsp;{quiz.name}
                     </NavLink>
                 </li>
             )
         });
     }
 
-    componentDidMount() {
-        axios.get('https://react-quiz-35da0.firebaseio.com/Quiz.json')
-            .then((response) => {
-                console.log(response);
+    async componentDidMount() {
+        try{
+            const {data} = await axios.get('https://react-quiz-35da0.firebaseio.com/quizes.json');
+
+            if(!data) {
+                this.setState({
+                    isLoading: false,
+                });
+            };
+
+            const quizes = []
+            Object.keys(data).forEach((key, i)  => {
+                quizes.push({
+                    id: key,
+                    name: `Test №${i + 1}`
+                });
+
+                this.setState({
+                    quizes,
+                    isLoading: false,
+                })
             });
+        } catch (err) {
+            console.error(err);
+        }
+         
     }
 
     render() {
@@ -28,10 +57,13 @@ export default class QuizList extends Component {
             <div className={classes.QuizList}>
                <div>
                    <h1>Список тестов</h1>
-
-                   <ul>
-                       {this.renderQuizes()}
-                   </ul>
+                   {this.state.quizes.length ? null:<div style={{textAlign: 'center'}}>Тестов пока что нету</div>}
+                    {this.state.isLoading 
+                        ? <Loader /> 
+                        : <ul>
+                            {this.renderQuizes()}
+                          </ul>
+                    }
                </div>
             </div>
         )
