@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import classes from './Quiz.module.css'
 import ActiveQuiz from './../../components/ActiveQuiz/ActiveQuiz';
 import FinishQuiz from './../../components/FinishQuiz/FinishQuiz';
-import axios from 'axios';
+import axios from './../../axios/axios-quiz';
+import Loader from './../../components/UI/Loader/Loader';
 
 
 class Quiz extends Component {
 	state = {
         results: {},
         isFinished: false,
-        isLoading: false,
+        isLoading: true,
         activeQuestion: 0,
         answerState: null,
 		quiz: [
@@ -40,14 +41,18 @@ class Quiz extends Component {
 	}
 
     async componentDidMount() {
-        const {data} = await axios.get('https://react-quiz-35da0.firebaseio.com/quizes/' + this.props.match.params.id + '.json');
-        let quiz = [];
-
-        Object.keys(data).forEach(key => {
-            quiz.push(data[key]);
-        });
-
-        this.setState({quiz});
+        try {
+            const {data} = await axios.get('quizes/' + this.props.match.params.id + '.json');
+            let quiz = [];
+    
+            Object.keys(data).forEach(key => {
+                quiz.push(data[key]);
+            });
+    
+            this.setState({quiz, isLoading: false});
+        } catch (err) {
+           console.error(err)
+        }
     }
 
     onAnswerClickHandler = answerId => {
@@ -133,7 +138,11 @@ class Quiz extends Component {
             <div className={classes.Quiz}> 
                 <div className={classes.QuizWrapper}>
                 <h1>Ответьте на все вопросы</h1>
-                    {this.checkQuizIsFinish()}
+                {
+                    this.state.isLoading 
+                        ? <Loader />
+                        : this.checkQuizIsFinish()
+                }
                 </div>
             </div>
         )
