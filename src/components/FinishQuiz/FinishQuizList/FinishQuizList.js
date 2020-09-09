@@ -2,10 +2,11 @@ import React from 'react';
 import classes from './FinishQuizList.module.css';
 import FinishQuizListItem from './FinishQuizListItem/FinishQuizListItem';
 import Button from './../../UI/Button/Button';
+import {Link} from 'react-router-dom';
 
 const FinishQuizList = props => {
     let rightAnswer = 0;
-  
+
     return (
         <ul className={classes.FinishQuizList}>
             {props.quiz.map((quiz, i) => {
@@ -25,7 +26,9 @@ const FinishQuizList = props => {
             <p>Правильно {rightAnswer} из {props.quiz.length}</p>
             <div>
                 <Button onClick={props.onRetryClick} type='primary'>Повторить</Button>
-                <Button type='success'>перейти в список тестов</Button>
+                <Link to='/'>
+                    <Button type='success'>перейти в список тестов</Button>
+                </Link>
             </div>
         </ul>
     )
