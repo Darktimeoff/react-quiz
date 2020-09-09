@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import classes from './Quiz.module.css'
 import ActiveQuiz from './../../components/ActiveQuiz/ActiveQuiz';
 import FinishQuiz from './../../components/FinishQuiz/FinishQuiz';
+import axios from 'axios';
 
 
 class Quiz extends Component {
 	state = {
         results: {},
         isFinished: false,
+        isLoading: false,
         activeQuestion: 0,
         answerState: null,
 		quiz: [
@@ -37,8 +39,15 @@ class Quiz extends Component {
         
 	}
 
-    componentDidMount() {
-        console.log('Quiz id', this.props.match.params.id)
+    async componentDidMount() {
+        const {data} = await axios.get('https://react-quiz-35da0.firebaseio.com/quizes/' + this.props.match.params.id + '.json');
+        let quiz = [];
+
+        Object.keys(data).forEach(key => {
+            quiz.push(data[key]);
+        });
+
+        this.setState({quiz});
     }
 
     onAnswerClickHandler = answerId => {

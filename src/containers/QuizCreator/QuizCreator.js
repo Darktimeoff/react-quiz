@@ -46,7 +46,7 @@ export default class QuizCreator extends Component {
 
         const {question, option1, option2, option3, option4} = this.state.formControls;
 
-        const questionItem ={
+        const questionItem = {
             question: question.value, 
             id: index,
             rightAnswerId: this.state.rightAnswerId,
@@ -59,6 +59,7 @@ export default class QuizCreator extends Component {
         }
 
         quiz.push(questionItem);
+
 
         this.setState({
             quiz,
