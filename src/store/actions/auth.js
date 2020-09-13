@@ -14,11 +14,9 @@ export function onClickLoginHandler() {
             password: password.value, 
             returnSecureToken: true
         }
-        console.log(authData)
     
         try {
             const response  = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`, authData);
-            console.log(response.data);
             dispatch(authLoginClick(response.data));
         } catch (err) {
             dispatch(fetchError(err));
@@ -41,7 +39,6 @@ export function onClickRegisterHandler() {
 
         try {
             const response  = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, authData);
-            console.log(response.data);
             dispatch(authSignUpClick(response.data))
         } catch (err) {
             dispatch(fetchError(err));

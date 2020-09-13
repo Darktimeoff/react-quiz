@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import classes from './Drawer.module.css';
 import Backdrop from './../../UI/Backdrop/Backdrop';
 import {NavLink} from 'react-router-dom';
+import { store } from './../../../index';
 
 const links = [
     {
@@ -13,13 +14,25 @@ const links = [
         to: '/auth',
         label: 'Авторизация',
         exact: false,
-    },
-    {
-        to: '/quiz-creator',
-        label: 'Создать тест',
-        exact: false,
     }
 ]
+
+function compareObj(obj1, obj2) {
+    return JSON.stringify(obj1) === JSON.stringify(obj2)
+}
+
+function comparesObj(array, obj1) {
+    let isCompered  = false;
+
+    array.forEach((obj) => {
+        if(compareObj(obj, obj1)) {
+            isCompered = true;
+        }
+    });
+
+    return isCompered
+}
+
 
 class Drawer extends Component {
     renderLinks() {
@@ -43,6 +56,16 @@ class Drawer extends Component {
 
 
     render() {
+        const link = {
+            to: '/quiz-creator',
+            label: 'Создать тест',
+            exact: false,
+        }
+
+        if(store.getState().auth.signIn && !comparesObj(links, link)) {
+            links.push(link);
+        }
+
         const cls = [
             classes.Drawer,
             this.props.isOpen ? '' : classes.close
