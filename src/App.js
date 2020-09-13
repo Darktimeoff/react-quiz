@@ -9,7 +9,7 @@ import { store } from './index';
 
 function App() {
 	const state = store.getState();
-	console.log(state)
+
 	return (
         <Layout>
 			<Switch>

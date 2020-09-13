@@ -43,7 +43,6 @@ class Auth extends Component {
                         <Button type="primary" disabled={!this.props.isFormValid} onClick={this.props.onClickRegisterHandler} >Зарегистрироваться</Button>
                         {this.props.error ? <span>Пароль или email не верный</span> : null}
                         {this.props.signIn ? <span>Вы успешно авторизовались</span> : null}
-                        {this.props.signUp ? <span>Вы успешно зарегистрировались</span> : null}
                     </form>
                 </div>
             </div>
@@ -55,7 +54,6 @@ function mapStateToProps(state) {
     return {
         isFormValid: state.auth.isFormValid,
         formControls: state.auth.formControls, 
-        signUp: state.auth.signUp,
         signIn: state.auth.signIn,
         error: state.auth.error
     }

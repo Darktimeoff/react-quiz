@@ -1,4 +1,4 @@
-import {FETCH_QUIZES_ERROR, AUTH_LOGIN_CLICK, AUTH_SIGNUP_CLICK, AUTH_CHANGE_INPUT} from './actionTypes';
+import {FETCH_QUIZES_ERROR, AUTH_LOGIN_CLICK, AUTH_CHANGE_INPUT} from './actionTypes';
 import axios from './../../axios/axios-quiz';
 import { store } from './../../index';
 
@@ -38,8 +38,11 @@ export function onClickRegisterHandler() {
         }
 
         try {
-            const response  = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, authData);
-            dispatch(authSignUpClick(response.data))
+            await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`, authData);
+
+            const responseSignIn  = await axios.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`, authData);
+
+            dispatch(authLoginClick(responseSignIn.data));
         } catch (err) {
             dispatch(fetchError(err));
         }
@@ -113,9 +116,3 @@ function authChangeInput(formControls, isFormValid) {
     }
 }
 
-function authSignUpClick(data) {
-    return {
-        type: AUTH_SIGNUP_CLICK,
-        data
-    }
-}
