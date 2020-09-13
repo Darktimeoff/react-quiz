@@ -50,6 +50,7 @@ class Auth extends Component {
     }
 }
 
+
 function mapStateToProps(state) {
     return {
         isFormValid: state.auth.isFormValid,
